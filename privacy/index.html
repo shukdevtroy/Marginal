@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy — Marginal</title>
+  <meta name="description" content="Privacy policy for Marginal, the AI email assistant for Gmail. No servers, no analytics, no ads. Your drafts go only to the AI provider you choose." />
+  <style>
+    :root {
+      --bg: #0d0f22;
+      --bg2: #14173a;
+      --panel: rgba(255, 255, 255, 0.045);
+      --line: rgba(255, 255, 255, 0.09);
+      --text: #eceefc;
+      --muted: #a2a8cc;
+      --dim: #7b82ab;
+      --accent: #8b7bff;
+      --cyan: #5ee7ff;
+      --pink: #ff7ad9;
+      --good: #3ee6a0;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      font: 16px/1.65 var(--sans);
+      color: var(--text);
+      background: linear-gradient(165deg, var(--bg2) 0%, var(--bg) 50%, #0a0c1a 100%);
+      background-attachment: fixed;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* reading progress */
+    .progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      width: 100%;
+      transform-origin: left;
+      transform: scaleX(0);
+      background: linear-gradient(90deg, var(--cyan), var(--accent), var(--pink));
+      z-index: 50;
+    }
+
+    /* subtle aurora */
+    .aurora {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: 420px;
+      background:
+        radial-gradient(55% 90% at 20% 0%, rgba(139,123,255,0.28), transparent 70%),
+        radial-gradient(50% 80% at 85% 0%, rgba(255,122,217,0.16), transparent 70%),
+        radial-gradient(40% 70% at 50% 0%, rgba(94,231,255,0.1), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 28px 80px;
+    }
+
+    /* header */
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .logo-ring {
+      display: inline-block;
+      padding: 5px;
+      border-radius: 26px;
+      background: conic-gradient(from 210deg, var(--cyan), var(--accent), var(--pink), var(--cyan));
+      margin-bottom: 18px;
+      box-shadow: 0 16px 40px -8px rgba(139,123,255,0.65);
+    }
+
+    .logo {
+      display: block;
+      width: 72px;
+      height: 72px;
+      border-radius: 21px;
+      background: var(--bg);
+    }
+
+    h1 {
+      font: italic 600 36px/1.15 var(--serif);
+      color: #fff;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .updated {
+      font-size: 13px;
+      color: var(--dim);
+    }
+
+    /* at a glance */
+    .glance {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 0 0 20px;
+    }
+
+    .fact {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px 12px 14px;
+      text-align: center;
+    }
+
+    .fact b {
+      display: block;
+      font: italic 600 30px/1 var(--serif);
+      background: linear-gradient(135deg, var(--cyan), var(--accent) 55%, var(--pink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .fact span {
+      font-size: 12.5px;
+      line-height: 1.35;
+      color: var(--muted);
+      display: block;
+    }
+
+    /* table of contents */
+    nav.toc {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px 22px 18px;
+      margin-bottom: 20px;
+    }
+
+    nav.toc h2 {
+      font: 600 15px/1.3 var(--sans);
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    nav.toc ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    nav.toc a {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      color: var(--muted);
+      background: rgba(0,0,0,0.22);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      transition: color .15s, border-color .15s, background .15s;
+    }
+
+    nav.toc a:hover {
+      color: #fff;
+      border-color: rgba(139,123,255,0.55);
+      background: rgba(139,123,255,0.16);
+      text-decoration: none;
+    }
+
+    /* cards / sections */
+    section {
+      position: relative;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 28px 28px 24px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      scroll-margin-top: 20px;
+    }
+
+    /* thin gradient edge along the top of every card */
+    section::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 24px; right: 24px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(139,123,255,0.8), rgba(255,122,217,0.6), transparent);
+    }
+
+    section h2 {
+      font: 600 18px/1.3 var(--sans);
+      color: #fff;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    section h2 .icon {
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: linear-gradient(140deg, rgba(139,123,255,0.32), rgba(94,231,255,0.12));
+      border: 1px solid rgba(139,123,255,0.28);
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    section h3 {
+      font: 600 15px/1.35 var(--sans);
+      color: #fff;
+      margin: 18px 0 6px;
+    }
+
+    section p, section li {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    section p + p { margin-top: 12px; }
+
+    section ul {
+      margin: 12px 0 0 4px;
+      padding-left: 18px;
+    }
+
+    section li { margin-bottom: 8px; }
+
+    section li strong, section p strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    code {
+      font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: #d9d4ff;
+      background: rgba(139,123,255,0.14);
+      padding: 1px 6px;
+      border-radius: 6px;
+    }
+
+    .highlight {
+      background: rgba(62, 230, 160, 0.08);
+      border: 1px solid rgba(62, 230, 160, 0.25);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-top: 16px;
+      color: #c8ffe6;
+      font-size: 14.5px;
+    }
+
+    .highlight strong { color: #a8ffd9; }
+
+    .note {
+      background: rgba(139, 123, 255, 0.08);
+      border: 1px solid rgba(139, 123, 255, 0.22);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-top: 16px;
+      color: #d0ccff;
+      font-size: 14.5px;
+    }
+
+    a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+
+    a:focus-visible, summary:focus-visible, button:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 3px;
+      border-radius: 8px;
+    }
+
+    /* data flow diagram — the one showpiece */
+    .flow {
+      display: grid;
+      grid-template-columns: 1fr 44px 1fr 44px 1.15fr;
+      align-items: center;
+      margin: 20px 0 6px;
+    }
+
+    .node {
+      background: rgba(0,0,0,0.26);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 12px 11px;
+      text-align: center;
+    }
+
+    .node .emoji { font-size: 20px; line-height: 1; display: block; margin-bottom: 6px; }
+    .node .t { font-weight: 600; color: #fff; font-size: 13.5px; line-height: 1.3; }
+    .node .s { color: var(--dim); font-size: 12px; line-height: 1.35; margin-top: 3px; }
+
+    .node.me {
+      border-color: rgba(139,123,255,0.5);
+      background: linear-gradient(160deg, rgba(139,123,255,0.2), rgba(0,0,0,0.26));
+    }
+
+    .node.local {
+      border-color: rgba(62,230,160,0.4);
+      background: rgba(62,230,160,0.08);
+    }
+    .node.local .s { color: #8fe9c4; }
+
+    .node.cloud {
+      border-color: rgba(139,123,255,0.4);
+      background: rgba(139,123,255,0.08);
+    }
+
+    .node.none {
+      border-style: dashed;
+      background: transparent;
+      opacity: 0.85;
+    }
+
+    .branches { display: grid; gap: 10px; }
+
+    .link {
+      height: 2px;
+      margin: 0 6px;
+      border-radius: 2px;
+      background: repeating-linear-gradient(90deg, var(--accent) 0 6px, transparent 6px 12px);
+      background-size: 12px 2px;
+      animation: dash 1.1s linear infinite;
+    }
+
+    @keyframes dash {
+      to { background-position: 12px 0; }
+    }
+
+    .flow-caption {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 13.5px;
+      color: var(--dim);
+    }
+
+    .flow-caption strong { color: var(--muted); }
+
+    /* table-like provider list */
+    .providers {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .prov {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      background: rgba(0,0,0,0.22);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+
+    .prov .badge {
+      flex-shrink: 0;
+      padding: 3px 9px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      background: rgba(62,230,160,0.15);
+      color: #3ee6a0;
+    }
+
+    .prov .badge.cloud {
+      background: rgba(139,123,255,0.18);
+      color: #b8afff;
+    }
+
+    .prov .info { flex: 1; }
+
+    .prov .name {
+      font-weight: 600;
+      color: #fff;
+      font-size: 14.5px;
+      margin-bottom: 2px;
+    }
+
+    .prov .desc {
+      font-size: 13.5px;
+      color: var(--dim);
+      line-height: 1.45;
+    }
+
+    /* never list */
+    .never {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0 0 !important;
+      padding: 0 !important;
+    }
+
+    .never li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin: 0;
+      padding: 11px 13px;
+      font-size: 14px;
+      line-height: 1.45;
+      background: rgba(0,0,0,0.22);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+
+    .never li::before {
+      content: "✕";
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      width: 20px; height: 20px;
+      margin-top: 1px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #ffb3e8;
+      background: rgba(255,122,217,0.16);
+      border-radius: 50%;
+    }
+
+    /* rights table */
+    .rights {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .right {
+      padding: 12px 14px;
+      background: rgba(0,0,0,0.22);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--accent);
+      border-radius: 12px;
+    }
+
+    .right .name { font-weight: 600; color: #fff; font-size: 14.5px; margin-bottom: 2px; }
+    .right .desc { font-size: 13.5px; color: var(--dim); line-height: 1.5; }
+
+    /* faq */
+    details {
+      background: rgba(0,0,0,0.22);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      margin-top: 10px;
+      transition: border-color .2s, background .2s;
+    }
+
+    details[open] {
+      border-color: rgba(139,123,255,0.4);
+      background: rgba(139,123,255,0.07);
+    }
+
+    summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 13px 16px;
+      font-weight: 600;
+      font-size: 14.5px;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    summary::after {
+      content: "+";
+      flex-shrink: 0;
+      width: 24px; height: 24px;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      color: var(--cyan);
+      background: rgba(94,231,255,0.1);
+      border-radius: 50%;
+      transition: transform .2s;
+    }
+
+    details[open] summary::after { transform: rotate(45deg); }
+
+    details p {
+      padding: 0 16px 15px;
+      font-size: 14.5px;
+      color: var(--muted);
+    }
+
+    /* contact */
+    .mail-btn {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 10px 18px;
+      font-weight: 600;
+      font-size: 14.5px;
+      color: #fff;
+      background: linear-gradient(135deg, rgba(94,231,255,0.2), rgba(139,123,255,0.3), rgba(255,122,217,0.2));
+      border: 1px solid rgba(139,123,255,0.5);
+      border-radius: 12px;
+      transition: transform .15s, box-shadow .15s;
+    }
+
+    .mail-btn:hover {
+      text-decoration: none;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px -10px rgba(139,123,255,0.9);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      color: var(--dim);
+      font-size: 13.5px;
+    }
+
+    footer a { color: var(--muted); }
+
+    .disclaimer {
+      max-width: 520px;
+      margin: 14px auto 0;
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: var(--dim);
+    }
+
+    .to-top {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: 44px; height: 44px;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      color: #fff;
+      background: rgba(20,23,58,0.9);
+      border: 1px solid rgba(139,123,255,0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s, transform .2s;
+      z-index: 40;
+    }
+
+    .to-top.show { opacity: 1; pointer-events: auto; }
+    .to-top:hover { transform: translateY(-2px); }
+
+    @media (max-width: 640px) {
+      .glance { grid-template-columns: 1fr 1fr; }
+      .flow { grid-template-columns: 1fr; }
+      .link {
+        width: 2px; height: 28px;
+        margin: 6px auto;
+        background: repeating-linear-gradient(180deg, var(--accent) 0 6px, transparent 6px 12px);
+        background-size: 2px 12px;
+        animation-name: dash-v;
+      }
+      .never { grid-template-columns: 1fr; }
+    }
+
+    @keyframes dash-v {
+      to { background-position: 0 12px; }
+    }
+
+    @media (max-width: 560px) {
+      .wrap { padding: 32px 18px 60px; }
+      h1 { font-size: 28px; }
+      section { padding: 22px 18px 18px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .link { animation: none; }
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <div class="aurora"></div>
+
+  <div class="wrap">
+    <header>
+      <span class="logo-ring"><img class="logo" src="icon128.png" alt="Marginal" /></span>
+      <h1>Privacy Policy</h1>
+      <p class="subtitle">Marginal — AI Email Assistant for Gmail</p>
+      <p class="updated">Last updated: 8 October 2026</p>
+    </header>
+
+    <div class="glance" aria-label="Privacy at a glance">
+      <div class="fact"><b>0</b><span>servers that receive your data</span></div>
+      <div class="fact"><b>0</b><span>analytics, trackers or ads</span></div>
+      <div class="fact"><b>1</b><span>AI provider sees your draft: the one you pick</span></div>
+      <div class="fact"><b>100%</b><span>on-device when you use Ollama</span></div>
+    </div>
+
+    <nav class="toc" aria-label="Contents">
+      <h2>Jump to a section</h2>
+      <ul>
+        <li><a href="#summary">Summary</a></li>
+        <li><a href="#collected">Data collected</a></li>
+        <li><a href="#usage">How drafts are used</a></li>
+        <li><a href="#providers">AI providers</a></li>
+        <li><a href="#storage">Storage &amp; security</a></li>
+        <li><a href="#retention">Retention</a></li>
+        <li><a href="#never">What we never do</a></li>
+        <li><a href="#rights">Your rights</a></li>
+        <li><a href="#permissions">Permissions</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <section id="summary">
+      <h2><span class="icon">🔒</span> Summary</h2>
+      <p>
+        Marginal is built with privacy as a first principle. Your email drafts are never stored by us, never sold, and never used to train models. You choose exactly which AI provider (if any) sees your text, and you can keep everything completely local.
+      </p>
+      <div class="highlight">
+        <strong>With Ollama (recommended):</strong> your drafts never leave your computer. No account, no key, no remote server.
+      </div>
+
+      <div class="flow" role="img" aria-label="Diagram: your Gmail draft goes to the Marginal extension on your device, then either to Ollama on your own computer or to the cloud AI provider you chose. Marginal has no servers in between.">
+        <div class="node">
+          <span class="emoji">✉️</span>
+          <div class="t">Your Gmail draft</div>
+          <div class="s">Subject, recipients, body</div>
+        </div>
+        <div class="link"></div>
+        <div class="node me">
+          <span class="emoji">🧩</span>
+          <div class="t">Marginal</div>
+          <div class="s">Runs in your browser</div>
+        </div>
+        <div class="link"></div>
+        <div class="branches">
+          <div class="node local">
+            <div class="t">Ollama</div>
+            <div class="s">Stays on your computer</div>
+          </div>
+          <div class="node cloud">
+            <div class="t">Cloud provider you chose</div>
+            <div class="s">Google, Hugging Face, OpenRouter or custom</div>
+          </div>
+          <div class="node none">
+            <div class="t">Marginal servers</div>
+            <div class="s">None exist</div>
+          </div>
+        </div>
+      </div>
+      <p class="flow-caption"><strong>Your text takes one of the two top routes, never through us.</strong></p>
+    </section>
+
+    <section id="collected">
+      <h2><span class="icon">📦</span> What data is collected</h2>
+      <p>Marginal itself does <strong>not</strong> operate any servers that receive your data. The only information handled is:</p>
+      <ul>
+        <li><strong>API keys / tokens</strong> you optionally enter for cloud providers (Google AI Studio, Hugging Face, OpenRouter, or a custom endpoint). These are stored only in your browser via <code>chrome.storage.local</code> and are never readable by Gmail or other websites.</li>
+        <li><strong>Your chosen provider, model name, and a few preferences</strong> (e.g. whether live checking is enabled, backup provider). Also stored locally in <code>chrome.storage.local</code>.</li>
+        <li><strong>Draft content</strong> — only the current compose window’s recipient chips, subject, and message body (excluding Gmail signature and quoted replies) — and only while a compose window is open.</li>
+      </ul>
+      <p>We do not collect analytics, crash reports, usage statistics, or any other telemetry.</p>
+      <div class="note">
+        <strong>Plain-language labels:</strong> in the Chrome Web Store’s categories, draft content counts as <em>personal communications</em>, recipient email addresses count as <em>personally identifiable information</em>, and your API key counts as <em>authentication information</em>. All three go only to the provider you select, and only to carry out your request.
+      </div>
+    </section>
+
+    <section id="usage">
+      <h2><span class="icon">📤</span> How your draft text is used</h2>
+      <p>
+        When you use the Correct or Polish features, Marginal sends the relevant draft text to the AI provider you selected in the extension popup. This happens only while a Gmail compose window is open. Closing the compose window or sending the email stops any further processing.
+      </p>
+      <p>You can turn off “Live check while I type” so analysis happens only when you click “Check now” or request a polish.</p>
+      <div class="note">
+        Draft text is sent solely to power the grammar / tone suggestions you requested. Marginal does not retain copies of your emails after the request completes.
+      </div>
+      <h3>What Marginal does not read</h3>
+      <p>Marginal looks only at the compose window you have open. It does not read your inbox, your sent mail, other people’s messages, your contacts, your attachments, or any other website. It does not use Gmail’s API or ask you to sign in to anything.</p>
+    </section>
+
+    <section id="providers">
+      <h2><span class="icon">🤖</span> AI providers &amp; data destinations</h2>
+      <p>You choose the provider. Marginal supports:</p>
+      <div class="providers">
+        <div class="prov">
+          <span class="badge">Local</span>
+          <div class="info">
+            <div class="name">Ollama</div>
+            <div class="desc">Runs entirely on your machine. Drafts never leave your computer. No account or API key required.</div>
+          </div>
+        </div>
+        <div class="prov">
+          <span class="badge cloud">Cloud</span>
+          <div class="info">
+            <div class="name">Google AI Studio (Gemini)</div>
+            <div class="desc">Text is sent to Google’s Generative Language API. Free-tier prompts may be used by Google to improve their products — see Google’s terms.</div>
+          </div>
+        </div>
+        <div class="prov">
+          <span class="badge cloud">Cloud</span>
+          <div class="info">
+            <div class="name">Hugging Face</div>
+            <div class="desc">Text is sent to Hugging Face Inference Providers. Subject to Hugging Face’s privacy policy and terms.</div>
+          </div>
+        </div>
+        <div class="prov">
+          <span class="badge cloud">Cloud</span>
+          <div class="info">
+            <div class="name">OpenRouter</div>
+            <div class="desc">Text is routed through OpenRouter to the model you select. Subject to OpenRouter’s privacy policy.</div>
+          </div>
+        </div>
+        <div class="prov">
+          <span class="badge cloud">Cloud</span>
+          <div class="info">
+            <div class="name">Custom endpoint</div>
+            <div class="desc">Any OpenAI-compatible <code>/v1/chat/completions</code> URL you provide. Data goes only to the host you configure.</div>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:16px">You may also set a backup provider. If the primary provider fails (rate limit, outage, etc.), Marginal will automatically try the backup.</p>
+      <h3>Their rules apply once your text reaches them</h3>
+      <p>Cloud providers are independent companies. After your draft arrives, their own privacy policies, retention periods and terms apply, and we cannot control them. Some providers keep prompts for a time, review them for abuse, or use free-tier traffic to improve their products. If that matters for a message, switch to Ollama or choose a paid tier with stricter terms.</p>
+      <h3>Providers may be in other countries</h3>
+      <p>Cloud providers may process data on servers outside your country. Because your text goes straight from your browser to the provider you picked, any cross-border transfer is between you and that provider. Marginal never routes it through a server of ours.</p>
+    </section>
+
+    <section id="storage">
+      <h2><span class="icon">🔑</span> Storage &amp; security</h2>
+      <ul>
+        <li>API keys and settings live exclusively in <code>chrome.storage.local</code> — isolated to this extension and inaccessible to Gmail or other sites.</li>
+        <li>No data is synced to your Google account or any remote Marginal server (there is none).</li>
+        <li>You can clear a provider’s key at any time from the extension popup (“Clear this provider’s key”).</li>
+        <li>Uninstalling the extension removes all locally stored data.</li>
+      </ul>
+      <h3>Protection in transit</h3>
+      <p>Requests to Google AI Studio, Hugging Face and OpenRouter use encrypted HTTPS. Requests to Ollama go to <code>localhost</code> on your own machine and never cross a network. If you set a custom endpoint, the connection is only as secure as the URL you enter, so use an <code>https://</code> address unless the server is on your own machine or trusted network.</p>
+      <h3>Keep your key safe</h3>
+      <p>Your API key is stored unencrypted in your browser profile, like most extension settings. Anyone with access to your computer account could read it. Use a key with a spending cap where your provider allows one, and revoke it with the provider if you think it has been exposed.</p>
+    </section>
+
+    <section id="retention">
+      <h2><span class="icon">⏳</span> How long data is kept</h2>
+      <ul>
+        <li><strong>Draft content:</strong> held in memory only while a compose window is open and a request is running. Marginal does not save it to disk.</li>
+        <li><strong>Settings and API keys:</strong> kept on your device until you clear a key, change the setting, or uninstall.</li>
+        <li><strong>On our side:</strong> nothing, because we receive nothing.</li>
+        <li><strong>On a provider’s side:</strong> set by that provider’s own policy.</li>
+      </ul>
+    </section>
+
+    <section id="never">
+      <h2><span class="icon">🚫</span> What we never do</h2>
+      <p>Marginal’s use of data follows the <a href="https://developer.chrome.com/docs/webstore/program-policies/user-data-faq" target="_blank" rel="noopener noreferrer">Chrome Web Store User Data Policy</a>, including its limits on what developers may do with user data. In plain terms:</p>
+      <ul class="never">
+        <li>Sell or rent your data to anyone</li>
+        <li>Share your data with advertisers or data brokers</li>
+        <li>Show ads or build advertising profiles</li>
+        <li>Train AI models on your emails</li>
+        <li>Use your data for anything except the suggestions you asked for</li>
+        <li>Use your data to judge creditworthiness or for lending</li>
+        <li>Let people read your emails: we cannot, because they never reach us</li>
+        <li>Load or run code downloaded from the internet</li>
+      </ul>
+    </section>
+
+    <section id="rights">
+      <h2><span class="icon">🧭</span> Your rights &amp; choices</h2>
+      <p>Wherever you live, including the EU, UK and California, you control your information. Because Marginal holds nothing about you on any server, most requests are met by acting on your own device.</p>
+      <div class="rights">
+        <div class="right">
+          <div class="name">See what is stored</div>
+          <div class="desc">Only your settings and optional API key, in your browser. Nothing else is kept.</div>
+        </div>
+        <div class="right">
+          <div class="name">Delete it</div>
+          <div class="desc">Click “Clear this provider’s key” in the popup, or uninstall Marginal to remove everything.</div>
+        </div>
+        <div class="right">
+          <div class="name">Stop sending text</div>
+          <div class="desc">Turn off “Live check while I type”, switch to Ollama, or uninstall at any time.</div>
+        </div>
+        <div class="right">
+          <div class="name">Ask a provider directly</div>
+          <div class="desc">To see or delete what a cloud provider holds, contact that provider using its own privacy process.</div>
+        </div>
+      </div>
+      <p style="margin-top:14px">We do not sell personal information, and we do not make automated decisions that affect your legal rights. If you cannot resolve a concern with us, you may contact your local data protection authority.</p>
+    </section>
+
+    <section id="permissions">
+      <h2><span class="icon">🛡️</span> Permissions explained</h2>
+      <ul>
+        <li><strong>storage</strong> — to save your provider choice, model name, and API keys locally.</li>
+        <li><strong>Host permissions for mail.google.com</strong> — required so the content script can detect compose windows and inject the Marginal panel.</li>
+        <li><strong>Host permissions for the AI providers</strong> (Google, Hugging Face, OpenRouter, localhost for Ollama) — so the extension can send the draft text you choose to analyze.</li>
+        <li><strong>Optional host permissions</strong> — only requested if you configure a custom endpoint, and only for the origin you specify.</li>
+      </ul>
+      <p>Marginal does not request access to your full Gmail account, contacts, or any other Google services beyond the open compose window.</p>
+    </section>
+
+    <section id="faq">
+      <h2><span class="icon">💬</span> Quick answers</h2>
+      <details>
+        <summary>Do you store or see my emails?</summary>
+        <p>No. We run no servers, so your drafts never reach us. They go from your browser to the provider you chose, and Marginal does not save them.</p>
+      </details>
+      <details>
+        <summary>Can I use Marginal without sending anything online?</summary>
+        <p>Yes. Pick Ollama in the popup. The model runs on your own computer, so your drafts stay there. You will need Ollama installed and a model downloaded.</p>
+      </details>
+      <details>
+        <summary>Does Marginal read my whole inbox?</summary>
+        <p>No. It reads only the compose window you have open, and leaves out your signature and quoted replies.</p>
+      </details>
+      <details>
+        <summary>What if the email I am writing contains other people’s information?</summary>
+        <p>Whatever is in the draft is sent to your chosen provider to produce suggestions. If a draft contains sensitive details about you or someone else, use Ollama or turn off live checking and run it only when you choose.</p>
+      </details>
+      <details>
+        <summary>What happens when I uninstall?</summary>
+        <p>Chrome removes everything Marginal stored on your device, including your settings and API keys. Anything a cloud provider already received stays under that provider’s policy.</p>
+      </details>
+    </section>
+
+    <section id="children">
+      <h2><span class="icon">👶</span> Children</h2>
+      <p>Marginal is not directed at children under 13. We do not knowingly collect personal information from children.</p>
+    </section>
+
+    <section id="changes">
+      <h2><span class="icon">🔄</span> Changes to this policy</h2>
+      <p>If we update this privacy policy, the “Last updated” date at the top will change. Significant changes will be noted in the extension’s Chrome Web Store listing or release notes where practical.</p>
+    </section>
+
+    <section id="contact">
+      <h2><span class="icon">✉️</span> Contact</h2>
+      <p>Questions or concerns about this privacy policy? Send a message and you will get a reply.</p>
+      <a class="mail-btn" href="mailto:shukdevdatta@gmail.com">shukdevdatta@gmail.com</a>
+    </section>
+
+    <footer>
+      <p>Marginal — notes in the margin of every email</p>
+      <p style="margin-top:8px">This page is provided for the Chrome Web Store listing and users of the extension.</p>
+      <p class="disclaimer">Marginal is an independent tool. It is not affiliated with, endorsed by, or sponsored by Google, Gmail, Ollama, Hugging Face or OpenRouter. All product names are trademarks of their owners.</p>
+    </footer>
+  </div>
+
+  <button class="to-top" id="toTop" type="button" aria-label="Back to top">↑</button>
+
+  <script>
+    (function () {
+      var bar = document.getElementById('progress');
+      var top = document.getElementById('toTop');
+      function onScroll() {
+        var h = document.documentElement;
+        var max = h.scrollHeight - h.clientHeight;
+        var p = max > 0 ? h.scrollTop / max : 0;
+        bar.style.transform = 'scaleX(' + p + ')';
+        top.classList.toggle('show', h.scrollTop > 600);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      top.addEventListener('click', function () {
+        window.scrollTo({ top: 0 });
+      });
+      onScroll();
+    })();
+  </script>
+</body>
+</html>
